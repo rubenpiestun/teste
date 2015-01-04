@@ -1,4 +1,8 @@
-IDEA_LIST = list(range(1, 10))
+from math import sqrt
+
+IDEA_LIST = list(range(1, 5))
+IDEA_LEN = len(IDEA_LIST)
+IDEA_SQR = int(sqrt(IDEA_LEN))
 
 
 class SudokuLine(object):
@@ -42,13 +46,44 @@ class SudokuSquare(SudokuLine):
             [item for sublist in self.square_contents for item in sublist])
 
 
+class SudokuGame(object):
+    def __init__(self, game):
+        self.valid = False
+        self.rows = game
+        self.cols = [[sl[i] for sl in game] for i in range(len(game))]
+        flat_list = [item for sublist in game for item in sublist]
+        chunks = [flat_list[i:i + IDEA_SQR]
+                  for i in range(0, len(flat_list), IDEA_SQR)]
+        self.squares = [[chunks[i]] + [chunks[i + IDEA_SQR]]
+                        for i in range(len(chunks) - IDEA_SQR)]
+
+    def print_game(self):
+        print ""
+        upper_line = ""
+        for i in range((len(IDEA_LIST) + IDEA_SQR) + 1):
+            upper_line += "-"
+        print upper_line
+        line_str = "|"
+        for i in range(IDEA_SQR):
+            line_str += ("{}" * IDEA_SQR) + "|"
+        for i in range(IDEA_LEN):
+            print line_str.format(*self.rows[i])
+            if (i + 1) % IDEA_SQR == 0:
+                print upper_line
+
+
 def main():
+    """
     col1 = SudokuLine([1, 2, 3, None, 5, 6, 7, 9, None])
     print col1.get_possibilities()
     sqr = SudokuSquare([[None, 2, 1], [3, None, 4], [6, 7, 8]])
     print sqr.get_possibilities()
+    """
+    jogo = [[2, 4 , 7, 8], [1 , 3, 6, 5], [9, 8, 7, 6], [3, 1, 2, 6]]
+    new = SudokuGame(jogo)
+    new.print_game()
+
 
 if __name__ == "__main__":
     main()
-
 main()
