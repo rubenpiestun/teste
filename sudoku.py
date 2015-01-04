@@ -67,7 +67,7 @@ class SudokuGame(object):
         for i in range(IDEA_SQR):
             line_str += ("{}" * IDEA_SQR) + "|"
         for i in range(IDEA_LEN):
-            print line_str.format(*self.rows[i])
+            print line_str.format(*[val if val is not None else '@' for val in self.rows[i]])
             if (i + 1) % IDEA_SQR == 0:
                 print upper_line
 
@@ -79,7 +79,7 @@ def main():
     sqr = SudokuSquare([[None, 2, 1], [3, None, 4], [6, 7, 8]])
     print sqr.get_possibilities()
     """
-    jogo = [[2, 4 , 7, 8], [1 , 3, 6, 5], [9, 8, 7, 6], [3, 1, 2, 6]]
+    jogo = [[2, 4 , 7, 8], [None , 3, 6, 5], [9, 8, 7, 6], [3, 1, 2, 6]]
     new = SudokuGame(jogo)
     new.print_game()
 
